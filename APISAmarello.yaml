@@ -1,0 +1,92 @@
+openapi: 3.0.0
+info:
+  title: API's Proxificadas Examen Amarrello
+  version: v1
+servers: 
+  - url: https://examen-0014-apigee.amarello.cloud
+paths:
+  /cits-hello-world/pais:
+    post:
+      tags:
+        - url https://restcountries.com/v3.1/all
+      summary: Obtiene informacion de un pais tiene implementado politicas cache, javascript y se transforma el servico se manda como POST y se consuta al servico original GET. ejemplos de paises mexico, colombia, United Kingdom, etc, el api consulta los paises en ingles  
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  example: mexico
+      responses:
+        '200':
+          description: Información sobre el país
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - BearerAuth: []
+  /cits-hello-world/personaje/{id}:
+    get:
+      tags:
+        - url https://swapi.dev/
+      summary: Obtener información sobre un de startwars por medio de un services callaout y se entrega un json de salida con tres campos
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Información sobre el personaje
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nombre:
+                    type: string
+                  Peso_Corporal:
+                    type: string
+                  cumpleanios:
+                    type: string
+      security:
+        - BearerAuth: []
+  /cits-hello-world/asteroide:
+    post:
+      tags:
+        - url https://api.nasa.gov/
+      summary: Obtiene informacion de un API de la Nasa sobre los asteroides con la fecha de inicio, fecha fin y un api_key. Es un servicio POST pero originalmente es un GET se extrae los datos del requets y se manda a llamar el api con service callaout. el api_key esta limitado a 30 peticiones por hora ya que es solo el demo 
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start_date:
+                  type: string
+                  format: date
+                end_date:
+                  type: string
+                  format: date
+                api_key:
+                  type: string
+                  example: DEMO_KEY
+      responses:
+        '200':
+          description: Información sobre el asteroide
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - BearerAuth: []
+components: 
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

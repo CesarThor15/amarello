@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: Oauth 2.0
+  version: v1
+servers:
+  - url: https://examen-0014-apigee.amarello.cloud
+paths:
+  /oauth_amarrello/accesstoken:
+    post:
+      tags:
+        - Token
+      summary: Obtener token de acceso
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  example: client_credentials
+      responses:
+        '200':
+          description: Token de acceso obtenido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  refresh_token_expires_in:
+                    type: string
+                  api_product_list:
+                    type: array
+                  organization_name:
+                    type: string
+                  developer.email:
+                    type: string
+                  token_type:
+                    type: string
+                  issued_at:
+                    type: string
+                  client_id:
+                    type: string
+                  access_token:
+                    type: string
+                  application_name:
+                    type: string
+                  escope:
+                    type: string
+                  expires_in:
+                    type: string
+                  refresh_count:
+                    type: string
+                  status:
+                    type: string
+      security:
+        - BasicAuth: []
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
